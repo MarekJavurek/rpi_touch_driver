@@ -142,7 +142,7 @@ int send_uevent(int fd, __u16 type, __u16 code, __s32 value)
 void handle_hidraw_device(char *path)
 {
 	struct uinput_user_dev device;
-	unsigned char data[22];
+	unsigned char data[25];
 	int prev_state[5];
 
 	/* Open usbraw-device, communicated from udev through the fifo */
@@ -196,10 +196,13 @@ void handle_hidraw_device(char *path)
 
 	/*if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_SLOT) < 0)
 		die("error: abs slot\n");
+
 	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_TRACKING_ID) < 0)
 		die("error: abs track id\n");
+
 	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_X) < 0)
 		die("error: abs mt x\n");
+
 	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_Y) < 0)
 		die("error: abs mt y\n");
 	*/
@@ -224,9 +227,7 @@ void handle_hidraw_device(char *path)
 			croak("Short input : %d\n", n);
 			continue;
 		}
-		if(data[21] == 0) {
-		  continue;
-		}
+
 
 		/* Decode raw data */
 		state[0] = (data[7] & 1) != 0;
@@ -248,6 +249,7 @@ void handle_hidraw_device(char *path)
 		}
 		send_uevent(uinput_fd, EV_SYN, 0, 0);
 		/*if(data[1]) {
+
 		send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 		send_uevent(uinput_fd, EV_SYN, 0, 0);
 		} else {
