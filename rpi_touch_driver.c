@@ -172,42 +172,6 @@ void handle_hidraw_device(char *path)
 			die("error: open uinput device");
 	}
 
-	if (write(uinput_fd, &device, sizeof(device)) != sizeof(device))
-		die("error: setup device");
-
-	if (ioctl(uinput_fd, UI_SET_EVBIT, EV_KEY) < 0)
-		die("error: evbit key\n");
-
-	if (ioctl(uinput_fd, UI_SET_EVBIT, EV_SYN) < 0)
-		die("error: evbit syn\n");
-
-	if (ioctl(uinput_fd, UI_SET_EVBIT, EV_ABS) < 0)
-		die("error: evbit abs\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_X) < 0)
-		die("error: abs x\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_Y) < 0)
-		die("error: abs y\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_SLOT) < 0)
-		die("error: abs slot\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_TRACKING_ID) < 0)
-		die("error: abs track id\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_X) < 0)
-		die("error: abs mt x\n");
-
-	if (ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_Y) < 0)
-		die("error: abs mt y\n");
-
-	if (ioctl(uinput_fd, UI_SET_KEYBIT, BTN_TOUCH) < 0)
-		die("error: evbit touch\n");
-
-	if (ioctl(uinput_fd, UI_DEV_CREATE) < 0)
-		die("error: create\n");
-
 
 	/* Enter input loop */
 	while (1) {
@@ -216,35 +180,35 @@ void handle_hidraw_device(char *path)
 		int y[5];
 		int i;
 		int n = read(usbraw_fd, data, sizeof(data));
-		if (n < 0)
-			break; /* Unplug? */
-		if (n != sizeof(data)) {
-			croak("Short input : %d\n", n);
-			continue;
-		}
+
 
 		/* Decode raw data */
 		state[0] = (data[7] & 1) != 0;
 		x[0] = data[2] * 256 + data[3];
 		y[0] = data[4] * 256 + data[5];
-		for (i = 0; i < 4; i++) {
+
+		i = 0;
+
+
 			state[i + 1] = (data[7] & (2 << i)) != 0;
 			x[i + 1] = data[i * 2 + 8] * 256 + data[i * 2 + 9];
 			y[i + 1] = data[i * 2 + 10] * 256 + data[i * 2 + 11];
-		}
+		
 
 		/* Send input events */
-		for (i = 0; i < 5; i++) {
+
 			if (state[i]) {
 				send_uevent(uinput_fd, EV_ABS, ABS_X, x[i]);
 				send_uevent(uinput_fd, EV_ABS, ABS_Y, y[i]);
 				send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 				break;
 			}
-		}
-		if (i == 5)
+		
+
+		if (i == 0)
 			send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 0);
-		for (i = 0; i < 5; i++) {
+
+		
 			if (state[i]) {
 				send_uevent(uinput_fd, EV_ABS, ABS_MT_SLOT, i);
 				send_uevent(uinput_fd, EV_ABS, ABS_MT_TRACKING_ID, i);
@@ -255,7 +219,7 @@ void handle_hidraw_device(char *path)
 				send_uevent(uinput_fd, EV_ABS, ABS_MT_TRACKING_ID, -1);
 			}
 			prev_state[i] = state[i];
-		}
+		
 		send_uevent(uinput_fd, EV_SYN, SYN_MT_REPORT, 0);
 	}
 	if (usbraw_fd >= 0)
