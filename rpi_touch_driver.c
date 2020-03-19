@@ -140,7 +140,7 @@ int send_uevent(int fd, __u16 type, __u16 code, __s32 value)
 void handle_hidraw_device(char *path)
 {
 	struct uinput_user_dev device;
-	unsigned char data[25];
+	unsigned char data[22];
 	int prev_state[5];
 
 	/* Open usbraw-device, communicated from udev through the fifo */
