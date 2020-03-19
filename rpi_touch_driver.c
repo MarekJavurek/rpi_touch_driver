@@ -181,6 +181,12 @@ void handle_hidraw_device(char *path)
 		int i;
 		int n = read(usbraw_fd, data, sizeof(data));
 
+		if (n < 0)
+			break; /* Unplug? */
+		if (n != sizeof(data)) {
+			croak("Short input : %d\n", n);
+			continue;
+		}
 
 		/* Decode raw data */
 		state[0] = (data[7] & 1) != 0;
