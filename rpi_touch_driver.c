@@ -70,8 +70,7 @@ int usbraw_fd;
 int fifo_fd;
 
 #define EVENT_DEBUG 0
-#define CORRECTION_X 1.0f
-#define CORRECTION_Y 1.0f
+
 
 int send_uevent(int fd, __u16 type, __u16 code, __s32 value)
 {
@@ -164,10 +163,10 @@ void handle_hidraw_device(char *path)
 	device.absmin[ABS_Y] = 0;
 	device.absmax[ABS_X] = 800;
 	device.absmax[ABS_Y] = 480;
-	//device.absmax[ABS_MT_POSITION_X] = 800;
-	//device.absmax[ABS_MT_POSITION_Y] = 480;
-	//device.absmax[ABS_MT_SLOT] = 5;
-	//device.absmax[ABS_MT_TRACKING_ID] = 5;
+	device.absmax[ABS_MT_POSITION_X] = 800;
+	device.absmax[ABS_MT_POSITION_Y] = 480;
+	device.absmax[ABS_MT_SLOT] = 5;
+	device.absmax[ABS_MT_TRACKING_ID] = 5;
 
 	uinput_fd = open("/dev/input/uinput",  O_WRONLY | O_NONBLOCK);
 	if (uinput_fd < 0) {
@@ -241,8 +240,8 @@ void handle_hidraw_device(char *path)
 		//send_uevent(uinput_fd, EV_ABS, ABS_X, x[0]);
 		//send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0]);
 		if (data[1]) {
-		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0] * CORRECTION_X);
-		  send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0] * CORRECTION_Y);
+		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0] * 1.0f);
+		  send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0] * 1.0f);
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 		} else {
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 0);
