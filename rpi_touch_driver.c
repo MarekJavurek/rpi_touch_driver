@@ -70,8 +70,8 @@ int usbraw_fd;
 int fifo_fd;
 
 #define EVENT_DEBUG 0
-#define CORRECTION_X 1.3f
-#define CORRECTION_Y 1.3f
+#define CORRECTION_X 1.0f
+#define CORRECTION_Y 1.0f
 
 int send_uevent(int fd, __u16 type, __u16 code, __s32 value)
 {
