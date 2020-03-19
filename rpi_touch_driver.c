@@ -196,9 +196,6 @@ void handle_hidraw_device(char *path)
 		i = 0;
 
 
-			state[i + 1] = (data[7] & (2 << i)) != 0;
-			x[i + 1] = data[i * 2 + 8] * 256 + data[i * 2 + 9];
-			y[i + 1] = data[i * 2 + 10] * 256 + data[i * 2 + 11];
 		
 
 		/* Send input events */
