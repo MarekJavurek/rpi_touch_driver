@@ -240,8 +240,8 @@ void handle_hidraw_device(char *path)
 		//send_uevent(uinput_fd, EV_ABS, ABS_X, x[0]);
 		//send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0]);
 		if (data[1]) {
-		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0] * 0.7f);
-		  send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0] * 0.7f);
+		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0]);
+		  send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0]);
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 		} else {
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 0);
