@@ -7,12 +7,14 @@
 
 ## and just FYI, to have correct HDMI output you have to set in your confix.txt this:
 
-hdmi_force_hotplug=1 \n
+```
+hdmi_force_hotplug=1
 hdmi_group=2
 hdmi_mode=87
 hdmi_cvt=800 480 60 6 0 0 0
 hdmi_drive=1
 max_usb_current=1
+```
 
 # Original readme:
 
