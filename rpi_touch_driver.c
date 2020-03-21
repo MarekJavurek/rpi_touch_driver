@@ -220,19 +220,36 @@ void handle_hidraw_device(char *path)
 		x[0] = data[2] * 256 + data[3];
 		y[0] = data[4] * 256 + data[5];
 
+
+		int a1 = 13679;
+		int a2 = 16;
+		int a3 = -1843476;
+		int a4 = -48;
+		int a5 = 8414 ;
+		int a6 = -1707140;
+		int a7 = 65536;
+
+	    int dx = ( a3 + a1 * x[0] + a2 * y[0] ) / a7; 
+        int dy = ( a6 + a4 * x[0] + a5 * y[0] ) / a7; 
+
 		croak("--------\n", 0);
-		croak("2 : %d \n", data[2]);
-		croak("3 : %d \n", data[3]);
-		croak("4 : %d \n", data[4]);
-		croak("5 : %d \n", data[5]);
-		croak("x[0] : %d \n", x[0]);
-		croak("y[0] : %d \n", y[0]);
+		croak("dx : %d \n", dx);
+		croak("dy : %d \n", dy);
+
+		
+		// croak("2 : %d \n", data[2]);
+		// croak("3 : %d \n", data[3]);
+		// croak("4 : %d \n", data[4]);
+		// croak("5 : %d \n", data[5]);
+		// croak("x[0] : %d \n", x[0]);
+		// croak("y[0] : %d \n", y[0]);
+
 
 
 
 		if (data[1]) {
-		  send_uevent(uinput_fd, EV_ABS, ABS_X, (int)x[0]);
-		  send_uevent(uinput_fd, EV_ABS, ABS_Y, (int)y[0]);
+		  send_uevent(uinput_fd, EV_ABS, ABS_X, dx);
+		  send_uevent(uinput_fd, EV_ABS, ABS_Y, dy);
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 		} else {
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 0);
