@@ -228,6 +228,10 @@ void handle_hidraw_device(char *path)
 		croak("x[0] : %d \n", x[0]);
 		croak("y[0] : %d \n", y[0]);
 
+		uint16_t combined = data[2] + data[3];
+		croak("combined : %d \n", combined);
+
+
 
 		if (data[1]) {
 		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0]);
