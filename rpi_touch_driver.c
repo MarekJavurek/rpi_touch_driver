@@ -213,13 +213,9 @@ void handle_hidraw_device(char *path)
 
 
 		/* Decode raw data */
-		state[0] = (data[7] & 1) != 0;
-
-
 
 		x[0] = data[2] * 256 + data[3];
 		y[0] = data[4] * 256 + data[5];
-
 
 		int a1 = 13679;
 		int a2 = 16;
@@ -231,21 +227,6 @@ void handle_hidraw_device(char *path)
 
 	    int dx = ( a3 + a1 * x[0] + a2 * y[0] ) / a7; 
         int dy = ( a6 + a4 * x[0] + a5 * y[0] ) / a7; 
-
-		croak("--------\n", 0);
-		croak("dx : %d \n", dx);
-		croak("dy : %d \n", dy);
-
-		
-		// croak("2 : %d \n", data[2]);
-		// croak("3 : %d \n", data[3]);
-		// croak("4 : %d \n", data[4]);
-		// croak("5 : %d \n", data[5]);
-		// croak("x[0] : %d \n", x[0]);
-		// croak("y[0] : %d \n", y[0]);
-
-
-
 
 		if (data[1]) {
 		  send_uevent(uinput_fd, EV_ABS, ABS_X, dx);
