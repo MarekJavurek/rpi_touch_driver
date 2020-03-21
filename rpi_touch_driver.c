@@ -199,8 +199,8 @@ void handle_hidraw_device(char *path)
 	/* Enter input loop */
 	while (1) {
 		int state[5];
-		int x[5];
-		int y[5];
+		int16_t x[5];
+		int16_t y[5];
 		int i;
 		
 		int n = read(usbraw_fd, data, sizeof(data));
@@ -228,14 +228,11 @@ void handle_hidraw_device(char *path)
 		croak("x[0] : %d \n", x[0]);
 		croak("y[0] : %d \n", y[0]);
 
-		u_int16_t combined = data[2] + data[3];
-		croak("combined : %d \n", combined);
-
 
 
 		if (data[1]) {
-		  send_uevent(uinput_fd, EV_ABS, ABS_X, x[0]);
-		  send_uevent(uinput_fd, EV_ABS, ABS_Y, y[0]);
+		  send_uevent(uinput_fd, EV_ABS, ABS_X, (int)x[0]);
+		  send_uevent(uinput_fd, EV_ABS, ABS_Y, (int)y[0]);
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 1);
 		} else {
 		  send_uevent(uinput_fd, EV_KEY, BTN_TOUCH, 0);
