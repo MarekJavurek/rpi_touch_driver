@@ -5,6 +5,14 @@
 - multiple output data by Calibration constants: -1843476 13679 16 -1707140 -48 8414 65536 (inspiration: https://github.com/saper-2/rpi-5inch-hdmi-touchscreen-driver)
 - tested with Raspberry Pi Zero W (Raspbian) and 52Pi Free Driver 5 inch 800 * 480 TFT LCD HDMI Touch Screen Display (https://www.aliexpress.com/item/32314250806.html?spm=a2g0s.9042311.0.0.27424c4d7DnKYA)
 
+## and just FYI, to have correct HDMI output you have to set in your confix.txt this:
+
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt=800 480 60 6 0 0 0
+hdmi_drive=1
+max_usb_current=1
 
 # Original readme:
 
