@@ -230,8 +230,8 @@ void handle_hidraw_device(char *path)
 
 		/* Decode raw data */
 		state[0] = (data[7] & 1) != 0;
-		x[0] = data[2] * 256 + data[3];
-		y[0] = data[4] * 256 + data[5];
+		x[0] = data[2] + data[3];
+		y[0] = data[4] + data[5];
 		//for (i = 0; i < 4; i++) {
 		//	state[i + 1] = (data[7] & (2 << i)) != 0;
 		//	x[i + 1] = data[i * 2 + 8] * 256 + data[i * 2 + 9];
