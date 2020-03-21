@@ -1,3 +1,13 @@
+# changes made by me (Marek Javurek)
+
+- reading not 25 but **22 bytes**!
+- disabled multitouch, only one touch supported
+- multiple output data by Calibration constants: -1843476 13679 16 -1707140 -48 8414 65536 (inspiration: https://github.com/saper-2/rpi-5inch-hdmi-touchscreen-driver)
+- tested with Raspberry Pi Zero W (Raspbian) and 52Pi Free Driver 5 inch 800 * 480 TFT LCD HDMI Touch Screen Display (https://www.aliexpress.com/item/32314250806.html?spm=a2g0s.9042311.0.0.27424c4d7DnKYA)
+
+
+# Original readme:
+
 User-mode driver for touch part for:
 
 7" inch Capacitive Touch Screen HDMI TFT LCD High Speed fr Raspberry Pi/B/B+/Pi2
